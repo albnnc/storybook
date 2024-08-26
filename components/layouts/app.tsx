@@ -1,9 +1,9 @@
 import { Fragment, useEffect, useMemo, useRef } from "react";
 import { Link, Outlet, useParams } from "react-router-dom";
-import { appTitle, groupOrder } from "../constants.ts";
-import { type StoryDef, useStories } from "../hooks/use_stories.ts";
-import { LinkWrapper } from "../shared/ui/link_wrapper.tsx";
-import { Loader } from "../shared/ui/loader.tsx";
+import { appTitle, groupOrder } from "../../constants.ts";
+import { type StoryDef, useStories } from "../../hooks/use_stories.ts";
+import { LinkWrapper } from "../link_wrapper.tsx";
+import { Loader } from "../loader.tsx";
 
 export const AppLayout = () => {
   return (

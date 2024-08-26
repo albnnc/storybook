@@ -1,6 +1,6 @@
+import { Loader } from "../components/loader.tsx";
+import { StoryIframe } from "../components/story_iframe.tsx";
 import { useStories } from "../hooks/use_stories.ts";
-import { Loader } from "../shared/ui/loader.tsx";
-import { StoryIframe } from "../widgets/story_iframe.tsx";
 
 export const HomePage = () => {
   const { stories, loaded } = useStories();

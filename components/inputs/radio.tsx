@@ -7,8 +7,8 @@ import {
   type ReactElement,
   type ReactNode,
 } from "react";
-import type { FormWidgetProps } from "../../../types/form.ts";
-import { get } from "../../../utils/get.ts";
+import type { FormWidgetProps } from "../../types/form.ts";
+import { get } from "../../utils/get.ts";
 import { Box } from "../box.tsx";
 
 export interface RadioProps

@@ -6,7 +6,7 @@ import {
   useMemo,
   useRef,
 } from "react";
-import type { FormManager } from "../../../types/form.ts";
+import type { FormManager } from "../../types/form.ts";
 import { FormContext } from "./context.ts";
 
 export interface FormProps extends

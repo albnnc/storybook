@@ -6,14 +6,14 @@ import {
   useEffect,
   useMemo,
 } from "react";
-import { useDebounce } from "../../../hooks/use_debounce.ts";
+import { useDebounce } from "../../hooks/use_debounce.ts";
 import type {
   FormFieldValidator,
   FormValidators,
   FormWidgetProps,
-} from "../../../types/form.ts";
-import { get } from "../../../utils/get.ts";
-import { set } from "../../../utils/set.ts";
+} from "../../types/form.ts";
+import { get } from "../../utils/get.ts";
+import { set } from "../../utils/set.ts";
 import { Box, type BoxProps } from "../box.tsx";
 import { FormContext } from "./context.ts";
 

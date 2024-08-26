@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useFormManager } from "../hooks/use_form_manager.ts";
-import { FormField } from "../shared/ui/form/field.tsx";
-import { Form } from "../shared/ui/form/mod.tsx";
-import { Checkbox } from "../shared/ui/inputs/checkbox.tsx";
-import { Radio, RadioOption } from "../shared/ui/inputs/radio.tsx";
-import { Select } from "../shared/ui/inputs/select.tsx";
-import { TextInput } from "../shared/ui/inputs/text.tsx";
+import { FormField } from "./form/field.tsx";
+import { Form } from "./form/mod.tsx";
+import { Checkbox } from "./inputs/checkbox.tsx";
+import { Radio, RadioOption } from "./inputs/radio.tsx";
+import { Select } from "./inputs/select.tsx";
+import { TextInput } from "./inputs/text.tsx";
 
 const controlsUpdateEvent = new CustomEvent("controls-update");
 export const StoryControls = ({

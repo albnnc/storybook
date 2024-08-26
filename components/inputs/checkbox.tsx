@@ -6,8 +6,8 @@ import {
   useEffect,
   useRef,
 } from "react";
-import type { FormWidgetProps } from "../../../types/form.ts";
-import { get } from "../../../utils/get.ts";
+import type { FormWidgetProps } from "../../types/form.ts";
+import { get } from "../../utils/get.ts";
 
 export interface CheckboxProps extends
   Omit<

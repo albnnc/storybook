@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom";
+import { Loader } from "../components/loader.tsx";
+import { StoryControls } from "../components/story_controls.tsx";
+import { StoryIframe } from "../components/story_iframe.tsx";
 import { useStories } from "../hooks/use_stories.ts";
-import { Loader } from "../shared/ui/loader.tsx";
-import { StoryControls } from "../widgets/story_controls.tsx";
-import { StoryIframe } from "../widgets/story_iframe.tsx";
 
 export const StoryPage = () => {
   const { id } = useParams();
