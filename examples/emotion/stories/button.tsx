@@ -1,4 +1,4 @@
-import { createReactElementLoader } from "./common.tsx";
+import { createReactElementLoader } from "../common.tsx";
 
 export const meta = {
   name: "Button",
@@ -6,7 +6,11 @@ export const meta = {
 };
 
 const Story = () => {
-  return <button>Button</button>;
+  return (
+    <button>
+      Button
+    </button>
+  );
 };
 
 export const load = createReactElementLoader(

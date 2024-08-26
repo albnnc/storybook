@@ -5,7 +5,7 @@ import { StorybookPlugin } from "@albnnc/storybook";
 await using project = new Project({
   plugins: [
     new StorybookPlugin({
-      globUrl: "./**/*_story.tsx",
+      globUrl: "./stories/*.tsx",
       getPlugins: (entryPoint) => [
         new BuildPlugin({ entryPoint }),
         new HtmlTemplatePlugin({ entryPoint: "./index.html" }),
