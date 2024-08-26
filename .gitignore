@@ -1,0 +1,8 @@
+.DS_Store
+.idea
+.target
+.vscode
+/deno.jsonc
+tmp
+tmp.*
+tmp/
