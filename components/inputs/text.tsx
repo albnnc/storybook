@@ -1,3 +1,4 @@
+// @ts-types="@types/react"
 import { forwardRef, type InputHTMLAttributes } from "react";
 import type { FormWidgetProps } from "../../types/form.ts";
 

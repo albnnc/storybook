@@ -1,3 +1,4 @@
+// @ts-types="@types/react"
 import type { Dispatch, SetStateAction } from "react";
 
 export type FormFieldValidator<T = unknown> = (value: T) => string | undefined;

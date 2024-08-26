@@ -1,3 +1,4 @@
+// @ts-types="@types/react"
 import { forwardRef, type HTMLAttributes } from "react";
 
 export type BoxProps = HTMLAttributes<HTMLDivElement>;

@@ -1,5 +1,4 @@
 import { Global } from "@emotion/react";
-import { Fragment } from "react";
 import { render } from "react-dom";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { AppLayout } from "./components/layouts/app.tsx";
@@ -21,7 +20,7 @@ const router = createBrowserRouter([
 
 const App = () => {
   return (
-    <Fragment>
+    <>
       <Global
         styles={{
           html: {
@@ -37,7 +36,7 @@ const App = () => {
         }}
       />
       <RouterProvider router={router} />
-    </Fragment>
+    </>
   );
 };
 

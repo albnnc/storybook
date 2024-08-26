@@ -1,3 +1,4 @@
+// @ts-types="@types/react"
 import { forwardRef, type SelectHTMLAttributes } from "react";
 import type { FormWidgetProps } from "../../types/form.ts";
 
@@ -15,7 +16,8 @@ export const Select = forwardRef<HTMLSelectElement, TextInputProps>(
       onBlur,
       autoComplete,
       value = "",
-      placeholder,
+      // ?
+      // placeholder,
       ...rest
     },
     ref,
@@ -24,11 +26,11 @@ export const Select = forwardRef<HTMLSelectElement, TextInputProps>(
       <select
         ref={ref}
         value={value}
-        placeholder={placeholder}
+        // ?
+        // placeholder={placeholder}
         autoComplete={autoComplete}
         onFocus={() => onFocus?.()}
-        // deno-lint-ignore no-explicit-any
-        onChange={(e: any) => onChange?.(e.target.value)}
+        onChange={(event) => onChange?.(event.target.value)}
         onBlur={() => onBlur?.()}
         disabled={disabled}
         {...rest}

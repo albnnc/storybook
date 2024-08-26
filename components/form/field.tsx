@@ -1,3 +1,4 @@
+// @ts-types="@types/react"
 import {
   cloneElement,
   type ReactElement,

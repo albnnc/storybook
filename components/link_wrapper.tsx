@@ -1,4 +1,10 @@
-import { cloneElement, forwardRef, isValidElement } from "react";
+// @ts-types="@types/react"
+import {
+  cloneElement,
+  forwardRef,
+  isValidElement,
+  type MouseEvent,
+} from "react";
 import { type LinkProps, useHref, useLinkClickHandler } from "react-router-dom";
 
 export type LinkWrapperProps = LinkProps;
@@ -14,7 +20,7 @@ export const LinkWrapper = forwardRef<HTMLAnchorElement, LinkWrapperProps>(
     const props = {
       href,
       target,
-      onClick: function (event: Event) {
+      onClick: function (event: MouseEvent<HTMLAnchorElement>) {
         onClick?.(event);
         if (!event.defaultPrevented) {
           handleClick(event);

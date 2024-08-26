@@ -1,4 +1,5 @@
 import { keyframes } from "@emotion/react";
+// @ts-types="@types/react"
 import type { SVGAttributes } from "react";
 
 const speed = 750;

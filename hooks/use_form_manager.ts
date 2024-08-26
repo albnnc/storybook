@@ -1,3 +1,4 @@
+// @ts-types="@types/react"
 import { useCallback, useMemo, useState } from "react";
 import type {
   FormDirtyFields,

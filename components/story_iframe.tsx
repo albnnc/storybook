@@ -1,3 +1,4 @@
+// @ts-types="@types/react"
 import { useEffect, useRef } from "react";
 import { get } from "../utils/get.ts";
 
