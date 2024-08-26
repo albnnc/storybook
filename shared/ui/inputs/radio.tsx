@@ -1,14 +1,14 @@
 import {
   Children,
   forwardRef,
-  HTMLAttributes,
-  InputHTMLAttributes,
+  type HTMLAttributes,
+  type InputHTMLAttributes,
   isValidElement,
-  ReactElement,
-  ReactNode,
+  type ReactElement,
+  type ReactNode,
 } from "react";
-
-import { FormWidgetProps } from "../../../types/form.ts";
+import type { FormWidgetProps } from "../../../types/form.ts";
+import { get } from "../../../utils/get.ts";
 import { Box } from "../box.tsx";
 
 export interface RadioProps
@@ -28,7 +28,7 @@ export const Radio = ({
     if (isValidElement(child)) {
       return {
         props: child.props,
-        value: child.props.value,
+        value: get(child.props, "value"),
         label: child.props.children,
       };
     }
@@ -43,7 +43,7 @@ export const Radio = ({
             readOnly={readOnly}
             disabled={disabled}
             checked={value === option.value}
-            onChange={() => onChange?.(option.value)}
+            onChange={() => onChange?.(String(option.value))}
             {...option.props}
           >
             {option.label}

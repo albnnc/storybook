@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { get } from "../../utils/get.ts";
+import { get } from "../utils/get.ts";
 
 export const StoryIframe = ({ id }: { id: string }) => {
   const ref = useRef<HTMLIFrameElement>(null);

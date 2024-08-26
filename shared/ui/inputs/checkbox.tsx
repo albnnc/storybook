@@ -1,13 +1,13 @@
 import {
-  ChangeEvent,
+  type ChangeEvent,
   forwardRef,
-  HTMLAttributes,
+  type HTMLAttributes,
   useCallback,
   useEffect,
   useRef,
 } from "react";
-import { get } from "../../../../utils/get.ts";
-import { FormWidgetProps } from "../../../types/form.ts";
+import type { FormWidgetProps } from "../../../types/form.ts";
+import { get } from "../../../utils/get.ts";
 
 export interface CheckboxProps extends
   Omit<

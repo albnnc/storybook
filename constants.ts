@@ -1,4 +1,4 @@
-import { StorybookPluginOptionsConstants } from "../mod.ts";
+import type { StorybookPluginOptionsConstants } from "./mod.ts";
 
 // @ts-ignore: compile-time constants
 const constants = STORYBOOK_CONSTANTS || {

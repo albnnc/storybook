@@ -1,20 +1,20 @@
 import {
   cloneElement,
-  ReactElement,
-  ReactNode,
+  type ReactElement,
+  type ReactNode,
   useContext,
   useEffect,
   useMemo,
 } from "react";
-import { get } from "../../../../utils/get.ts";
-import { set } from "../../../../utils/set.ts";
 import { useDebounce } from "../../../hooks/use_debounce.ts";
-import {
+import type {
   FormFieldValidator,
   FormValidators,
   FormWidgetProps,
 } from "../../../types/form.ts";
-import { Box, BoxProps } from "../box.tsx";
+import { get } from "../../../utils/get.ts";
+import { set } from "../../../utils/set.ts";
+import { Box, type BoxProps } from "../box.tsx";
 import { FormContext } from "./context.ts";
 
 export interface FormFieldProps extends Omit<BoxProps, "children"> {

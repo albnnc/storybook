@@ -1,62 +1,30 @@
 import { Plugin, type PluginApplyOptions } from "@albnnc/nvil";
-import * as async from "@std/async";
 import { getAvailablePort } from "@std/net";
 
-export class StoryLiveReloadPlugin extends Plugin {
-  port = getAvailablePort({ preferredPort: 43001 });
+export class StoryLrHostPlugin extends Plugin {
+  port = getAvailablePort({ preferredPort: 43000 });
   callbacks = new Map<string, (id: string) => void>();
 
   constructor() {
-    super("STORY_LIVE_RELOAD");
+    super("STORY_LR_HOST");
   }
 
-  apply(this: StoryLiveReloadPlugin, options: PluginApplyOptions) {
+  apply(this: StoryLrHostPlugin, options: PluginApplyOptions) {
     super.apply(options);
     if (!this.project.dev) {
       return;
     }
-    this.serve();
-    const handleChange = async.debounce(async (change: string) => {
-      const entry = this.project.bundle.get(change);
-      if (!entry || entry.scope !== undefined) {
-        return;
-      }
-      const storyBaseUrl = new URL(
-        "./",
-        new URL(change, this.project.targetUrl),
-      );
-      const storyMetaUrl = new URL("./meta.json", storyBaseUrl);
-      console.log("storyMetaUrl", storyMetaUrl);
-      const id = await fetch(storyMetaUrl)
-        .then((v) => v.json())
-        .then((v) => v.id)
-        .catch(() => undefined);
-      if (!id) {
-        return;
-      }
-      this.logger.info(`Reloading`);
-      await fetch(new URL(`http://localhost:${this.port}`), {
-        method: "POST",
-        body: id,
-      })
-        .then(async (v) => {
-          await v.body?.cancel();
-          if (!v.ok) {
-            this.logger.warn("Unable to request reload");
-          }
-        })
-        .catch(() => undefined);
-    }, 200);
-    this.project.stager.on("WRITE_END", (changes) => {
-      for (const change of changes as string[]) {
-        handleChange(change);
-      }
-    });
+    this.#serve();
   }
 
-  // TODO: Implement disposal.
-  private serve() {
+  reload(id: string) {
+    this.logger.info(`Reloading story ${id}`);
+    this.callbacks.forEach((fn) => fn(id));
+  }
+
+  #serve() {
     Deno.serve({
+      signal: this.disposalSignal,
       port: this.port,
       onListen: ({ hostname, port }) => {
         this.logger.info(`Listening events on ${hostname}:${port}`);
@@ -99,10 +67,5 @@ export class StoryLiveReloadPlugin extends Plugin {
         headers: { "Access-Control-Allow-Origin": "*" },
       });
     });
-  }
-
-  private reload(id: string) {
-    this.logger.info("Reloading");
-    this.callbacks.forEach((fn) => fn(id));
   }
 }

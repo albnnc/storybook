@@ -1,12 +1,12 @@
 import {
   forwardRef,
-  HTMLAttributes,
+  type HTMLAttributes,
   useCallback,
   useEffect,
   useMemo,
   useRef,
 } from "react";
-import { FormManager } from "../../../types/form.ts";
+import type { FormManager } from "../../../types/form.ts";
 import { FormContext } from "./context.ts";
 
 export interface FormProps extends

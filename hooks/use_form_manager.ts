@@ -1,8 +1,5 @@
 import { useCallback, useMemo, useState } from "react";
-import { deepEqual } from "../../utils/deep_equal.ts";
-import { get } from "../../utils/get.ts";
-import { hash } from "../../utils/hash.ts";
-import {
+import type {
   FormDirtyFields,
   FormErrors,
   FormManager,
@@ -10,6 +7,9 @@ import {
   FormValidators,
   FormValues,
 } from "../types/form.ts";
+import { deepEqual } from "../utils/deep_equal.ts";
+import { get } from "../utils/get.ts";
+import { hash } from "../utils/hash.ts";
 
 export function useFormManager({
   initialValues: propsInitialValues,

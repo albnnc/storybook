@@ -1,4 +1,4 @@
-import { EffectCallback, useEffect, useRef } from "react";
+import { type EffectCallback, useEffect, useRef } from "react";
 
 export function useUpdateEffect(fn: EffectCallback, deps: unknown[]) {
   const first = useRef(true);

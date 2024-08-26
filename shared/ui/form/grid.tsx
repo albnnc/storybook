@@ -1,4 +1,4 @@
-import { Box, BoxProps } from "../box.tsx";
+import { Box, type BoxProps } from "../box.tsx";
 
 export const FormGrid = (props: BoxProps) => {
   return (

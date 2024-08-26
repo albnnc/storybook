@@ -7,6 +7,8 @@ const metaGlob = path.join(currentDir, "./stories/*/meta.json");
 const indexHtmlFilePath = path.join(currentDir, "./index.html");
 const urlRoot = Deno.env.get("URL_ROOT") || undefined;
 
+console.log("currentDir", currentDir);
+
 Deno.serve({
   handler: async (req) => {
     const url = new URL(req.url);

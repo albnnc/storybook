@@ -1,13 +1,12 @@
-import { forwardRef, InputHTMLAttributes } from "react";
-
-import { FormWidgetProps } from "../../../types/form.ts";
+import { forwardRef, type SelectHTMLAttributes } from "react";
+import type { FormWidgetProps } from "../../../types/form.ts";
 
 export interface TextInputProps
   extends
-    Omit<InputHTMLAttributes<HTMLInputElement>, keyof FormWidgetProps>,
+    Omit<SelectHTMLAttributes<HTMLSelectElement>, keyof FormWidgetProps>,
     FormWidgetProps<string> {}
 
-export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
+export const Select = forwardRef<HTMLSelectElement, TextInputProps>(
   (
     {
       disabled,
@@ -22,9 +21,8 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
     ref,
   ) => {
     return (
-      <input
+      <select
         ref={ref}
-        type="text"
         value={value}
         placeholder={placeholder}
         autoComplete={autoComplete}

@@ -1,5 +1,5 @@
-import { createContext, RefObject, useContext } from "react";
-import { FormProps } from "./mod.tsx";
+import { createContext, type RefObject, useContext } from "react";
+import type { FormProps } from "./mod.tsx";
 
 export type FormContextValue =
   & Pick<

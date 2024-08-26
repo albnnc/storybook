@@ -1,5 +1,5 @@
 import { cloneElement, forwardRef, isValidElement } from "react";
-import { LinkProps, useHref, useLinkClickHandler } from "react-router-dom";
+import { type LinkProps, useHref, useLinkClickHandler } from "react-router-dom";
 
 export type LinkWrapperProps = LinkProps;
 
