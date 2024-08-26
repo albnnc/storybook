@@ -20,7 +20,6 @@ export class StoryLrDomainPlugin extends Plugin {
     //     new URL(change, this.project.targetUrl),
     //   );
     //   const storyMetaUrl = new URL("./meta.json", storyBaseUrl);
-    //   console.log("storyMetaUrl", storyMetaUrl);
     //   const id = await fetch(storyMetaUrl)
     //     .then((v) => v.json())
     //     .then((v) => v.id)
@@ -43,7 +42,7 @@ export class StoryLrDomainPlugin extends Plugin {
     // }, 200);
     this.project.stager.on("WRITE_END", (changes) => {
       for (const change of changes as string[]) {
-        console.log("!", change);
+        console.log("change!", change);
         // handleChange(change);
       }
     });

@@ -1,8 +1,8 @@
 import { createReactElementLoader } from "./common.tsx";
 
 export const meta = {
-  name: "Accordion",
-  group: "Base",
+  name: "Button",
+  group: "General",
 };
 
 const Story = () => {

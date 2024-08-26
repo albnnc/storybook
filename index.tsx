@@ -1,5 +1,5 @@
 import { Global } from "@emotion/react";
-import { render } from "react-dom";
+import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { AppLayout } from "./components/layouts/app.tsx";
 import { HomePage } from "./pages/home.tsx";
@@ -40,6 +40,6 @@ const App = () => {
   );
 };
 
-const root = document.getElementById("root");
-
-render(<App />, root);
+const container = document.getElementById("root");
+const root = createRoot(container!);
+root.render(<App />, root);

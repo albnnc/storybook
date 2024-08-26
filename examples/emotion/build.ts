@@ -6,8 +6,8 @@ await using project = new Project({
   plugins: [
     new StorybookPlugin({
       globUrl: "./**/*_story.tsx",
-      getPlugins: () => [
-        new BuildPlugin({ entryPoint: "./index.tsx" }),
+      getPlugins: (entryPoint) => [
+        new BuildPlugin({ entryPoint }),
         new HtmlTemplatePlugin({ entryPoint: "./index.html" }),
       ],
     }),

@@ -111,7 +111,6 @@ export class StorybookPlugin extends Plugin {
     );
     this.logger.info(`Found story ${storyMeta.entryPoint}`);
     const storyTargetUrl = this.getStoryTargetUrl(storyMeta);
-    console.log("storyTargetUrl", storyTargetUrl);
     const domainProject = new Project({
       plugins: [
         new CleanPlugin(),

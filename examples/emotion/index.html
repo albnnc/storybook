@@ -12,9 +12,9 @@
   </head>
   <body>
     <div id="root"></div>
-    <script src="{{SCRIPT_URL}}"></script>
-    {{#DEV}}
-    <script src="/live-reload.js"></script>
-    {{/DEV}}
+    <script type="module">
+      import { load } from "{{SCRIPT_URL}}";
+      load();
+    </script>
   </body>
 </html>

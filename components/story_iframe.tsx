@@ -4,7 +4,6 @@ import { get } from "../utils/get.ts";
 
 export const StoryIframe = ({ id }: { id: string }) => {
   const ref = useRef<HTMLIFrameElement>(null);
-
   useEffect(() => {
     const listen = (event: Event) => {
       if (get(event, "detail") === id) {
@@ -14,7 +13,6 @@ export const StoryIframe = ({ id }: { id: string }) => {
     addEventListener("story-update", listen);
     return () => removeEventListener("story-update", listen);
   }, [id]);
-
   return (
     <iframe
       key={id}
