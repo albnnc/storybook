@@ -1,4 +1,3 @@
-// @ts-types="@types/react"
 import {
   Children,
   forwardRef,

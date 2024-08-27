@@ -1,4 +1,3 @@
-// @ts-types="@types/react"
 import {
   forwardRef,
   type HTMLAttributes,

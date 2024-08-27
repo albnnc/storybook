@@ -1,4 +1,3 @@
-// @ts-types="@types/react"
 import { useCallback } from "react";
 import { useLocation } from "react-router-dom";
 

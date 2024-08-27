@@ -1,4 +1,3 @@
-// @ts-types="@types/react"
 import { useEffect, useState } from "react";
 
 export const useDebounce = <T extends unknown>(value: T, delay: number) => {

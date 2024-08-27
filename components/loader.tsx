@@ -1,10 +1,9 @@
 import { keyframes } from "@emotion/react";
-// @ts-types="@types/react"
 import type { SVGAttributes } from "react";
 
 const speed = 750;
 
-export const Loader = (props: SVGAttributes) => (
+export const Loader = (props: SVGAttributes<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"

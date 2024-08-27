@@ -1,4 +1,3 @@
-// @ts-types="@types/react"
 import { createContext, type RefObject, useContext } from "react";
 import type { FormProps } from "./mod.tsx";
 

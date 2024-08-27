@@ -1,4 +1,3 @@
-// @ts-types="@types/react"
 import { useCallback, useEffect, useState } from "react";
 
 export function useStories() {

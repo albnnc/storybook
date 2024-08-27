@@ -1,4 +1,3 @@
-// @ts-types="@types/react"
 import { ReactElement } from "react";
 import { createRoot } from "react-dom/client";
 

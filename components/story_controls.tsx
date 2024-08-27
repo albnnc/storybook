@@ -1,4 +1,3 @@
-// @ts-types="@types/react"
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useFormManager } from "../hooks/use_form_manager.ts";

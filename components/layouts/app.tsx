@@ -1,4 +1,3 @@
-// @ts-types="@types/react"
 import { Fragment, useEffect, useMemo, useRef } from "react";
 import { Link, Outlet, useParams } from "react-router-dom";
 import { appTitle, groupOrder } from "../../constants.ts";
