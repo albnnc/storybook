@@ -1,7 +1,7 @@
 export const App = () => {
   return (
     <div
-      css={{
+      style={{
         display: "inline-block",
         padding: "1rem",
         borderRadius: "4px",
