@@ -67,7 +67,6 @@ const Navigation = () => {
   const { stories, loaded } = useStories();
   const { id: activeStoryId } = useParams();
   const listRef = useRef<Record<string, HTMLElement>>({});
-
   useEffect(() => {
     if (activeStoryId) {
       requestAnimationFrame(() =>
@@ -78,7 +77,6 @@ const Navigation = () => {
       );
     }
   }, [stories]);
-
   const groups = useMemo(() => {
     return orderStringArray(
       [...new Set(stories.map((s) => s.group ?? ""))]
@@ -92,7 +90,6 @@ const Navigation = () => {
       {},
     ) as Record<string, StoryDef[]>;
   }, [stories]);
-
   return (
     <nav
       css={{

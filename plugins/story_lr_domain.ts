@@ -1,8 +1,15 @@
 import { Plugin, type PluginApplyOptions } from "@albnnc/nvil";
 
+export interface StoryLrDomainPluginOptions {
+  onUpdate?: () => void;
+}
+
 export class StoryLrDomainPlugin extends Plugin {
-  constructor() {
+  onUpdate?: () => void;
+
+  constructor(options: StoryLrDomainPluginOptions) {
     super("STORY_LR_DOMAIN");
+    this.onUpdate = options.onUpdate;
   }
 
   apply(this: StoryLrDomainPlugin, options: PluginApplyOptions) {
@@ -10,40 +17,9 @@ export class StoryLrDomainPlugin extends Plugin {
     if (!this.project.dev) {
       return;
     }
-    // const handleChange = async.debounce(async (change: string) => {
-    //   const entry = this.project.bundle.get(change);
-    //   if (!entry || entry.scope !== undefined) {
-    //     return;
-    //   }
-    //   const storyBaseUrl = new URL(
-    //     "./",
-    //     new URL(change, this.project.targetUrl),
-    //   );
-    //   const storyMetaUrl = new URL("./meta.json", storyBaseUrl);
-    //   const id = await fetch(storyMetaUrl)
-    //     .then((v) => v.json())
-    //     .then((v) => v.id)
-    //     .catch(() => undefined);
-    //   if (!id) {
-    //     return;
-    //   }
-    //   this.logger.info(`Reloading`);
-    //   await fetch(new URL(`http://localhost:${this.port}`), {
-    //     method: "POST",
-    //     body: id,
-    //   })
-    //     .then(async (v) => {
-    //       await v.body?.cancel();
-    //       if (!v.ok) {
-    //         this.logger.warn("Unable to request reload");
-    //       }
-    //     })
-    //     .catch(() => undefined);
-    // }, 200);
     this.project.stager.on("WRITE_END", (changes) => {
-      for (const change of changes as string[]) {
-        console.log("change!", change);
-        // handleChange(change);
+      for (const _ of changes as string[]) {
+        this.onUpdate?.();
       }
     });
   }

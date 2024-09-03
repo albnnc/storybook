@@ -6,7 +6,6 @@ export function createReactElementLoader(
 ) {
   return () => {
     const container = document.getElementById("root");
-    console.log(container);
     const root = createRoot(container!);
     root.render(children);
   };

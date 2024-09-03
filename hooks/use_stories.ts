@@ -1,5 +1,14 @@
 import { useCallback, useEffect, useState } from "react";
 
+export interface StoryDef {
+  id: string;
+  index?: boolean;
+  entryPoint: string;
+  name: string;
+  group?: string;
+  controls?: Record<string, unknown>;
+}
+
 export function useStories() {
   const [stories, setStories] = useState<StoryDef[]>([]);
   const [loaded, setLoaded] = useState(false);
@@ -11,15 +20,8 @@ export function useStories() {
   }, []);
   useEffect(() => {
     fetchStories();
+    addEventListener("story-update", fetchStories);
+    return () => removeEventListener("story-update", fetchStories);
   }, []);
   return { stories, loaded };
-}
-
-export interface StoryDef {
-  id: string;
-  index?: boolean;
-  entryPoint: string;
-  name: string;
-  group?: string;
-  controls?: Record<string, unknown>;
 }

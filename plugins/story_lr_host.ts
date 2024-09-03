@@ -1,9 +1,23 @@
 import { Plugin, type PluginApplyOptions } from "@albnnc/nvil";
+import { debounce } from "@std/async";
 import { getAvailablePort } from "@std/net";
 
 export class StoryLrHostPlugin extends Plugin {
-  port = getAvailablePort({ preferredPort: 43000 });
-  callbacks = new Map<string, (id: string) => void>();
+  #port = getAvailablePort({ preferredPort: 43000 });
+  #callbacks = new Map<string, (id: string) => void>();
+
+  get #liveReloadScript() {
+    return `
+      new EventSource("http://localhost:${this.#port}")
+        .addEventListener("message", (event) => {
+          dispatchEvent(
+            new CustomEvent("story-update", { detail: event.data })
+          );
+        });
+    `
+      .trim()
+      .replace(/\s+/g, " ");
+  }
 
   constructor() {
     super("STORY_LR_HOST");
@@ -15,19 +29,27 @@ export class StoryLrHostPlugin extends Plugin {
       return;
     }
     this.#serve();
+    const scriptUrl = "./live-reload.js";
+    this.project.stager.on("BOOTSTRAP", async () => {
+      this.logger.debug(`Populating ${scriptUrl}`);
+      const encoder = new TextEncoder();
+      const data = encoder.encode(this.#liveReloadScript);
+      this.project.bundle.set(scriptUrl, { data, scope: "STORY_LR_HOST" });
+      await this.project.stager.run("LIVE_RELOAD_SCRIPT_POPULATE");
+    });
   }
 
-  reload(id: string) {
-    this.logger.info(`Reloading story ${id}`);
-    this.callbacks.forEach((fn) => fn(id));
-  }
+  reload = debounce((id: string) => {
+    this.logger.debug(`Reloading story ${id}`);
+    this.#callbacks.forEach((fn) => fn(id));
+  }, 200);
 
   #serve() {
     Deno.serve({
       signal: this.disposalSignal,
-      port: this.port,
+      port: this.#port,
       onListen: ({ hostname, port }) => {
-        this.logger.info(`Listening events on ${hostname}:${port}`);
+        this.logger.debug(`Listening events on ${hostname}:${port}`);
       },
     }, (request) => {
       if (request.method === "OPTIONS") {
@@ -36,7 +58,7 @@ export class StoryLrHostPlugin extends Plugin {
         });
       }
       if (request.method === "GET") {
-        const { callbacks } = this;
+        const callbacks = this.#callbacks;
         const callbackId = crypto.randomUUID();
         const body = new ReadableStream({
           start(controller) {

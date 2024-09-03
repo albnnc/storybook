@@ -32,6 +32,7 @@ export class StorybookPlugin extends Plugin {
   getPlugins?: (entryPoint: string) => Plugin[];
 
   #storySetWatcher?: StorySetWatcher;
+  #storyLrHostPlugin = new StoryLrHostPlugin();
   #hostProject?: Project;
   #domainProjects = new Map<string, Project>();
 
@@ -85,11 +86,12 @@ export class StorybookPlugin extends Plugin {
           new HtmlTemplatePlugin({ entryPoint: "./index.html" }),
           new BuildPlugin({ entryPoint: "./server.ts", scope: "SERVER" }),
           new RunPlugin({ scope: "SERVER", args: ["-A"] }),
-          new StoryLrHostPlugin(),
+          this.#storyLrHostPlugin,
         ],
         sourceUrl: import.meta.resolve("./"),
         targetUrl: this.project.targetUrl,
         dev: this.project.dev,
+        debug: this.project.debug,
       });
       this.#nestProjectLoggers(this.#hostProject, ["UI"]);
       await this.#hostProject.bootstrap();
@@ -115,11 +117,16 @@ export class StorybookPlugin extends Plugin {
         new CleanPlugin(),
         ...(this.getPlugins?.(entryPoint) ?? []),
         new StoryMetaPlugin({ entryPoint }),
-        new StoryLrDomainPlugin(),
+        new StoryLrDomainPlugin({
+          onUpdate: () => {
+            this.#storyLrHostPlugin.reload(storyMeta.id);
+          },
+        }),
       ],
       sourceUrl: this.project.sourceUrl,
       targetUrl: storyTargetUrl,
       dev: this.project.dev,
+      debug: this.project.debug,
     });
     this.#nestProjectLoggers(domainProject, [storyMeta.id]);
     this.#domainProjects.set(entryPoint, domainProject);

@@ -10,9 +10,7 @@ export const StoryPage = () => {
   if (!loaded) {
     return <Loader css={{ margin: "auto", width: "24px", height: "24px" }} />;
   }
-
   const story = stories.find((story) => story.id === id);
-
   if (!story) {
     return <span css={{ margin: "24px" }}>Story not found</span>;
   }
@@ -45,7 +43,6 @@ export const StoryPage = () => {
           css={{
             display: "flex",
             flexDirection: "column",
-            // backgroundColor: "rgb(246, 248, 250)",
             borderTop: "1px solid rgb(216, 222, 228)",
           }}
         >
