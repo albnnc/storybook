@@ -1,6 +1,5 @@
-// {{=//{ }//=}}
 {
-  "name": "@albnnc/nvil-plugin-storybook",
+  "name": "@albnnc/storybook",
   "version": "0.1.0",
   "tasks": {
     "fmt": "dprint fmt",
@@ -10,9 +9,9 @@
   "exclude": ["./**/.git", "./**/.target"],
   "lock": false,
   "imports": {
-    "@albnnc/nvil": "//{#local}//../nvil/mod.ts//{/local}////{^local}//jsr:@albnnc/nvil@0.7.0//{/local}//",
-    //{#local}//
+    "@albnnc/nvil": "jsr:@albnnc/nvil@0.7.2",
     "@deno/graph": "jsr:@deno/graph@0.81.2",
+    "@emotion/react": "npm:@emotion/react@11.11.1",
     "@luca/esbuild-deno-loader": "jsr:@luca/esbuild-deno-loader@0.10.3",
     "@std/assert": "jsr:@std/assert@1.0.2",
     "@std/async": "jsr:@std/async@1.0.3",
@@ -25,19 +24,16 @@
     "@std/log": "jsr:@std/log@0.224.5",
     "@std/net": "jsr:@std/net@1.0.0",
     "@std/path": "jsr:@std/path@0.225.2",
+    "@types/react": "npm:@types/react@18.3",
     "esbuild": "npm:esbuild@0.23.1",
     "mustache": "npm:mustache@4.2.0",
-    //{/local}//
-    "@emotion/react": "npm:@emotion/react@11.11.1",
-    "@types/react": "npm:@types/react@18",
     "react-dom": "npm:react-dom@18.3.1",
     "react-router-dom": "npm:react-router-dom@6.23.1",
     "react": "npm:react@18.3.1"
   },
   "exports": "./mod.ts",
   "publish": {
-    "include": ["./deno.jsonc"],
-    "exclude": ["./deno.jsonc.template", "./examples"]
+    "exclude": ["./examples"]
   },
   "compilerOptions": {
     "jsx": "react-jsx",

@@ -11,7 +11,6 @@ import * as path from "@std/path";
 import { StoryLrDomainPlugin } from "./plugins/story_lr_domain.ts";
 import { StoryLrHostPlugin } from "./plugins/story_lr_host.ts";
 import { StoryMetaPlugin } from "./plugins/story_meta.ts";
-import type { ScopeLogger } from "./utils/scope_logger.ts";
 import { StoryMeta } from "./utils/story_meta.ts";
 import { StorySetWatcher } from "./utils/story_set_watcher.ts";
 
@@ -54,7 +53,7 @@ export class StorybookPlugin extends Plugin {
       await this.#storySetWatcher.walk();
       await Promise.all(
         Array.from(this.#storySetWatcher.data.values()).map((v) =>
-          this.onStoryFind(v)
+          this.#onStoryFind(v)
         ),
       );
       if (this.project.dev) {
@@ -62,10 +61,10 @@ export class StorybookPlugin extends Plugin {
         (async () => {
           for await (const event of this.#storySetWatcher ?? []) {
             if (event.type === "FIND") {
-              this.onStoryFind(event.entryPoint);
+              this.#onStoryFind(event.entryPoint);
             }
             if (event.type === "LOSS") {
-              this.onStoryLoss(event.entryPoint);
+              this.#onStoryLoss(event.entryPoint);
             }
           }
         })();
@@ -92,7 +91,7 @@ export class StorybookPlugin extends Plugin {
         targetUrl: this.project.targetUrl,
         dev: this.project.dev,
       });
-      this.nestProjectLoggers(this.#hostProject, ["UI"]);
+      this.#nestProjectLoggers(this.#hostProject, ["UI"]);
       await this.#hostProject.bootstrap();
     });
   }
@@ -104,13 +103,13 @@ export class StorybookPlugin extends Plugin {
     }
   }
 
-  private async onStoryFind(this: StorybookPlugin, entryPoint: string) {
+  async #onStoryFind(this: StorybookPlugin, entryPoint: string) {
     const storyMeta = StoryMeta.fromEntryPoint(
       entryPoint,
       this.project.sourceUrl,
     );
-    this.logger.info(`Found story ${storyMeta.entryPoint}`);
-    const storyTargetUrl = this.getStoryTargetUrl(storyMeta);
+    this.logger.debug(`Found story ${storyMeta.entryPoint}`);
+    const storyTargetUrl = this.#getStoryTargetUrl(storyMeta);
     const domainProject = new Project({
       plugins: [
         new CleanPlugin(),
@@ -122,35 +121,38 @@ export class StorybookPlugin extends Plugin {
       targetUrl: storyTargetUrl,
       dev: this.project.dev,
     });
-    this.nestProjectLoggers(domainProject, [storyMeta.id]);
+    this.#nestProjectLoggers(domainProject, [storyMeta.id]);
     this.#domainProjects.set(entryPoint, domainProject);
     await domainProject.bootstrap();
   }
 
-  private async onStoryLoss(this: StorybookPlugin, entryPoint: string) {
+  async #onStoryLoss(this: StorybookPlugin, entryPoint: string) {
     const storyMeta = StoryMeta.fromEntryPoint(
       entryPoint,
       this.project.sourceUrl,
     );
-    this.logger.info(`Lost story ${storyMeta.entryPoint}`);
+    this.logger.debug(`Lost story ${storyMeta.entryPoint}`);
     const storyProject = this.#domainProjects.get(entryPoint);
     if (!storyProject) {
       return;
     }
     await storyProject[Symbol.asyncDispose]();
-    const storyTargetUrl = this.getStoryTargetUrl(storyMeta);
+    const storyTargetUrl = this.#getStoryTargetUrl(storyMeta);
     this.#domainProjects.delete(entryPoint);
     await Deno.remove(path.fromFileUrl(storyTargetUrl), { recursive: true });
   }
 
-  private getStoryTargetUrl(this: StorybookPlugin, storyMeta: StoryMeta) {
+  #getStoryTargetUrl(this: StorybookPlugin, storyMeta: StoryMeta) {
     return new URL(
       `./stories/${storyMeta.id}/`,
       this.project.targetUrl,
     ).toString();
   }
 
-  private nestScopeLogger(scopeLogger: ScopeLogger, segments: string[] = []) {
+  #nestScopeLogger(
+    scopeLogger: this["logger"],
+    segments: string[] = [],
+  ) {
     scopeLogger.scope = [
       this.logger.scope,
       ...segments,
@@ -158,10 +160,10 @@ export class StorybookPlugin extends Plugin {
     ].join(" > ");
   }
 
-  private nestProjectLoggers(project: Project, segments: string[] = []) {
-    this.nestScopeLogger(project.logger, segments);
+  #nestProjectLoggers(project: Project, segments: string[] = []) {
+    this.#nestScopeLogger(project.logger, segments);
     project.plugins.forEach((v) => {
-      this.nestScopeLogger(v.logger, segments);
+      this.#nestScopeLogger(v.logger, segments);
     });
   }
 }

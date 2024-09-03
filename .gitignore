@@ -2,7 +2,6 @@
 .idea
 .target
 .vscode
-/deno.jsonc
 tmp
 tmp.*
 tmp/
