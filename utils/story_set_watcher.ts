@@ -16,41 +16,28 @@ export class StorySetWatcher
   implements Disposable, AsyncIterable<StorySetWatcherEvent> {
   data = new Set<string>();
 
-  private sourceUrl: string;
-  private globUrl: string;
-  private fsWatcher?: Deno.FsWatcher;
-  private queuePWR = Promise.withResolvers<StorySetWatcherEvent[]>();
+  #sourceUrl: string;
+  #globUrl: string;
+  #fsWatcher?: Deno.FsWatcher;
+  #queuePwr = Promise.withResolvers<StorySetWatcherEvent[]>();
 
   constructor({ sourceUrl, globUrl }: StorySetOptions) {
-    this.sourceUrl = sourceUrl;
-    this.globUrl = globUrl;
+    this.#sourceUrl = sourceUrl;
+    this.#globUrl = globUrl;
   }
 
-  async *[Symbol.asyncIterator]() {
-    if (!this.fsWatcher) {
-      throw new Error("Not watching");
+  async watch() {
+    this.#fsWatcher = Deno.watchFs(path.fromFileUrl(this.#sourceUrl));
+    const debounced = async.debounce(() => this.walk(), 200);
+    for await (const _ of this.#fsWatcher) {
+      debounced();
     }
-    while (true) {
-      const queue = await this.queuePWR.promise;
-      if (!queue.length) {
-        return;
-      }
-      for (const v of queue) {
-        yield v;
-      }
-      this.queuePWR = Promise.withResolvers();
-    }
-  }
-
-  [Symbol.dispose]() {
-    this.fsWatcher?.[Symbol.dispose]();
-    this.queuePWR.resolve([]);
   }
 
   async walk() {
     const nextQueue: StorySetWatcherEvent[] = [];
     const nextData = new Set<string>();
-    const globPath = path.fromFileUrl(new URL(this.globUrl, this.sourceUrl));
+    const globPath = path.fromFileUrl(new URL(this.#globUrl, this.#sourceUrl));
     for await (const v of fs.expandGlob(globPath, { globstar: true })) {
       v.isFile && nextData.add(path.toFileUrl(v.path).toString());
     }
@@ -67,15 +54,28 @@ export class StorySetWatcher
       }
     }
     if (nextQueue.length) {
-      this.queuePWR.resolve(nextQueue);
+      this.#queuePwr.resolve(nextQueue);
     }
   }
 
-  async watch() {
-    this.fsWatcher = Deno.watchFs(path.fromFileUrl(this.sourceUrl));
-    const debounced = async.debounce(() => this.walk(), 200);
-    for await (const _ of this.fsWatcher) {
-      debounced();
+  async *[Symbol.asyncIterator]() {
+    if (!this.#fsWatcher) {
+      throw new Error("Not watching");
     }
+    while (true) {
+      const queue = await this.#queuePwr.promise;
+      if (!queue.length) {
+        return;
+      }
+      for (const v of queue) {
+        yield v;
+      }
+      this.#queuePwr = Promise.withResolvers();
+    }
+  }
+
+  [Symbol.dispose]() {
+    this.#fsWatcher?.[Symbol.dispose]();
+    this.#queuePwr.resolve([]);
   }
 }

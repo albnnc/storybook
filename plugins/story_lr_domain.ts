@@ -18,9 +18,10 @@ export class StoryLrDomainPlugin extends Plugin {
       return;
     }
     this.project.stager.on("WRITE_END", (changes) => {
-      for (const _ of changes as string[]) {
-        this.onUpdate?.();
+      for (const change of changes as string[]) {
+        this.logger.debug(`Handling change of ${change}`);
       }
+      this.onUpdate?.();
     });
   }
 }
