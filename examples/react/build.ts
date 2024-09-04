@@ -6,10 +6,12 @@ await using project = new Project({
   plugins: [
     new StorybookPlugin({
       globUrl: "./stories/*.tsx",
-      getPlugins: (entryPoint) => [
-        new BuildPlugin({ entryPoint }),
-        new HtmlTemplatePlugin({ entryPoint: "./index.html" }),
-      ],
+      getPlugins: (entryPoint) => {
+        return [
+          new BuildPlugin({ entryPoint }),
+          new HtmlTemplatePlugin({ entryPoint: "./index.html" }),
+        ];
+      },
     }),
   ],
   sourceUrl: import.meta.resolve("./"),
