@@ -12,7 +12,7 @@ export class StoryLrDomainPlugin extends Plugin {
     this.onUpdate = options.onUpdate;
   }
 
-  apply(this: StoryLrDomainPlugin, options: PluginApplyOptions) {
+  apply(options: PluginApplyOptions) {
     super.apply(options);
     if (!this.project.dev) {
       return;

@@ -44,7 +44,7 @@ export class StorybookPlugin extends Plugin {
     this.getPlugins = options.getPlugins;
   }
 
-  apply(this: StorybookPlugin, options: PluginApplyOptions) {
+  apply(options: PluginApplyOptions) {
     super.apply(options);
     this.project.stager.on("BOOTSTRAP", async () => {
       this.#storySetWatcher = new StorySetWatcher({
@@ -105,7 +105,7 @@ export class StorybookPlugin extends Plugin {
     }
   }
 
-  async #onStoryFind(this: StorybookPlugin, entryPoint: string) {
+  async #onStoryFind(entryPoint: string) {
     const storyMeta = StoryMeta.fromEntryPoint(
       entryPoint,
       this.project.sourceUrl,
@@ -133,7 +133,7 @@ export class StorybookPlugin extends Plugin {
     await domainProject.bootstrap();
   }
 
-  async #onStoryLoss(this: StorybookPlugin, entryPoint: string) {
+  async #onStoryLoss(entryPoint: string) {
     const storyMeta = StoryMeta.fromEntryPoint(
       entryPoint,
       this.project.sourceUrl,
@@ -147,9 +147,10 @@ export class StorybookPlugin extends Plugin {
     const storyTargetUrl = this.#getStoryTargetUrl(storyMeta);
     this.#domainProjects.delete(entryPoint);
     await Deno.remove(path.fromFileUrl(storyTargetUrl), { recursive: true });
+    this.#storyLrHostPlugin.reload(storyMeta.id);
   }
 
-  #getStoryTargetUrl(this: StorybookPlugin, storyMeta: StoryMeta) {
+  #getStoryTargetUrl(storyMeta: StoryMeta) {
     return new URL(
       `./stories/${storyMeta.id}/`,
       this.project.targetUrl,

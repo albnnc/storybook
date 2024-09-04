@@ -21,7 +21,7 @@ export class StoryMetaPlugin extends Plugin {
     this.#entryPoint = options.entryPoint;
   }
 
-  apply(this: StoryMetaPlugin, options: PluginApplyOptions) {
+  apply(options: PluginApplyOptions) {
     super.apply(options);
     this.project.stager.on("BUILD_END", async (context) => {
       const bundleUrl = get(context, "bundleUrl");

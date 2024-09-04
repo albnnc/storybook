@@ -8,7 +8,7 @@ export const meta = {
 const Story = () => {
   return (
     <a href="#">
-      Anchor
+      Anchor 123
     </a>
   );
 };

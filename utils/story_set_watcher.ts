@@ -26,7 +26,7 @@ export class StorySetWatcher
     this.globUrl = globUrl;
   }
 
-  async *[Symbol.asyncIterator](this: StorySetWatcher) {
+  async *[Symbol.asyncIterator]() {
     if (!this.fsWatcher) {
       throw new Error("Not watching");
     }
@@ -42,12 +42,12 @@ export class StorySetWatcher
     }
   }
 
-  [Symbol.dispose](this: StorySetWatcher) {
+  [Symbol.dispose]() {
     this.fsWatcher?.[Symbol.dispose]();
     this.queuePWR.resolve([]);
   }
 
-  async walk(this: StorySetWatcher) {
+  async walk() {
     const nextQueue: StorySetWatcherEvent[] = [];
     const nextData = new Set<string>();
     const globPath = path.fromFileUrl(new URL(this.globUrl, this.sourceUrl));
@@ -71,7 +71,7 @@ export class StorySetWatcher
     }
   }
 
-  async watch(this: StorySetWatcher) {
+  async watch() {
     this.fsWatcher = Deno.watchFs(path.fromFileUrl(this.sourceUrl));
     const debounced = async.debounce(() => this.walk(), 200);
     for await (const _ of this.fsWatcher) {

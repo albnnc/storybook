@@ -1,5 +1,4 @@
 import { Plugin, type PluginApplyOptions } from "@albnnc/nvil";
-import { debounce } from "@std/async";
 import { getAvailablePort } from "@std/net";
 
 export class StoryLrHostPlugin extends Plugin {
@@ -23,7 +22,7 @@ export class StoryLrHostPlugin extends Plugin {
     super("STORY_LR_HOST");
   }
 
-  apply(this: StoryLrHostPlugin, options: PluginApplyOptions) {
+  apply(options: PluginApplyOptions) {
     super.apply(options);
     if (!this.project.dev) {
       return;
@@ -39,10 +38,10 @@ export class StoryLrHostPlugin extends Plugin {
     });
   }
 
-  reload = debounce((id: string) => {
+  reload(id: string) {
     this.logger.debug(`Reloading story ${id}`);
     this.#callbacks.forEach((fn) => fn(id));
-  }, 200);
+  }
 
   #serve() {
     Deno.serve({
@@ -75,13 +74,6 @@ export class StoryLrHostPlugin extends Plugin {
             "Content-Type": "text/event-stream",
             "Access-Control-Allow-Origin": "*",
           },
-        });
-      }
-      if (request.method === "POST") {
-        request.text().then((v) => this.reload(v));
-        return new Response(null, {
-          status: 200,
-          headers: { "Access-Control-Allow-Origin": "*" },
         });
       }
       return new Response(null, {
