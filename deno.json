@@ -1,5 +1,5 @@
 {
-  "name": "@albnnc/storybook",
+  "name": "@albnnc-test/storybook",
   "version": "0.1.0",
   "tasks": {
     "fmt": "dprint fmt",
