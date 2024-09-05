@@ -51,6 +51,7 @@ export class StorybookPlugin extends Plugin {
         sourceUrl: this.project.sourceUrl,
         globUrl: this.globUrl,
       });
+      await this.#storySetWatcher.walk();
       if (this.project.dev) {
         this.#storySetWatcher?.watch();
         (async () => {
@@ -64,7 +65,6 @@ export class StorybookPlugin extends Plugin {
           }
         })();
       } else {
-        await this.#storySetWatcher.walk();
         await Promise.all(
           Array
             .from(this.#storySetWatcher.data.values())
